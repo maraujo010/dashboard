@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import DataManager from './dataManager.js';
-import SocketComm from './socketComm.js';
+import Map from './components/Map.js';
+import Graph from './components/Graph.js';
+import DataManager from './DataManager.js';
+import SocketComm from './SocketComm.js';
 import './App.css';
 
 class App extends Component {
@@ -17,9 +19,10 @@ class App extends Component {
         <div className="App-header">
           <h2>Dashboard</h2>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <div className="App-content">
+          <div className="App-graph-area"></div>
+          <div className="App-map-area"><Map /></div>
+        </div>
       </div>
     );
   }
