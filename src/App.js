@@ -2,17 +2,22 @@ import React, { Component } from 'react';
 import Map from './components/Map.js';
 import Graph from './components/Graph.js';
 import DataManager from './DataManager.js';
-import SocketComm from './SocketComm.js';
 import './App.css';
 
 class App extends Component {
 
   render() {
 
-    var dataManagerObj = new DataManager();
-    var comm           = new SocketComm(dataManagerObj);
+    var dataManagerHelper = new DataManager();
+    var socket            = new WebSocket('ws://localhost:8080/');
 
-    comm.CreateConn();
+    socket.onopen = function() {
+      console.log('Connected to the server');
+    }
+
+    socket.onmessage = function(event) {
+      dataManagerHelper.SaveDataset(event.data)
+    }
 
     return (
       <div className="App">

@@ -67,7 +67,7 @@ wss.on('connection', function connection(ws) {
         if(counter === 50000) {
             clearInterval(i);
         }
-      }, 2000);
+      }, 5000);
     }
   });
 });
