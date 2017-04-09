@@ -20,7 +20,6 @@
 
 .App-graph-area{
   float:left;
-  background-color:blue;
   width:50%;
   height:100%;
 }
@@ -33,5 +32,10 @@
 
 #map {
   width: 100%;
-  height: 400px;
+  height: 600px;
+}
+
+#timeSlider {
+  width:80%;
+  margin: 70px auto;
 }
