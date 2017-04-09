@@ -82,7 +82,9 @@ class Map extends Component {
   render() {
 
     return (
+      <div className="App-map-area">
         <div id="map" className="map"></div>
+      </div>
     );
   }
 }
