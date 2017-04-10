@@ -14,13 +14,26 @@ A Websocket server is sending data through one channel using this format
    "speed":123.45
 }
 
-This dataset refers to a driver/company currently active. The webservers is sending information from all drivers and all companies. 
+This dataset refers to a driver/company currently active. The websockets server permanently sending information from all drivers and all companies. 
+
+The frontend app is a React.js dashboard with 3 pluggable/extendable plugins:
+
+1- A map that shows all the drivers that have sent their position in the last 24 hours. 
+
+2- A chart that displays the drivers activity (number of times they were active) by time period.
+
+3- The user is able to alter the displayed period from 10 days to 6 hours (slider)
+
 
 
 ### Technical notes
-- This demo app was built in a Node.js (Ubuntu OS) environment. The following instructions are similar to other operating systems.
+- This demo app was built in a Node.js (Ubuntu OS) environment. 
 - The base project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app)
 
+#### Tools/frameworks
+- The map plugin is done with OpenLayers and Open Street Maps.
+- That chart is done using D3.js
+- HTML5 localStorage is used to persist data since last 10 days
 
 
 
