@@ -28,6 +28,7 @@ The frontend app is a React.js dashboard with 3 pluggable/extendable plugins:
 ### Technical notes
 - This demo app was built in a Node.js (Ubuntu OS) environment. 
 - The base project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app)
+- The websockets server is generating random data. 
 
 #### Tools/frameworks
 - The map plugin is done with OpenLayers and Open Street Maps.
