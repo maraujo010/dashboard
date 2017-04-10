@@ -3,17 +3,17 @@ A Dashboard Demo App for data visualization using ReactJs, OpenLayers, D3js. Thi
 
 ### System Description
 A Websocket server is sending data through one channel using this format
-
+```
 {  
-   “company_id":123,
-   “driver_id":456,
+   "company_id":123,
+   "driver_id":456,
    "timestamp":"yyyy-MM-dd'T'HH:mm:ss",
    "latitude":52.234234,
    "longitude":13.23324,
    "accuracy":12.0,
    "speed":123.45
 }
-
+```
 This dataset refers to a driver/company currently active. The websockets server permanently sending information from all drivers and all companies. 
 
 The frontend app is a React.js dashboard with 3 pluggable/extendable plugins:
