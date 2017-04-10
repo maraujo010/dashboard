@@ -22,8 +22,7 @@ The frontend app is a React.js dashboard with 3 pluggable/extendable plugins:
 
 2- A chart that displays the drivers activity (number of times they were active) by time period.
 
-3- The user is able to alter the displayed period from 10 days to 6 hours (slider)
-
+3- A slider to change the selected period (from 10 days to 6 hours).
 
 
 ### Technical notes
