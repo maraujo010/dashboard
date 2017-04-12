@@ -10,16 +10,16 @@ function getRandomInt(min, max) {
 // generate random lon lat point
 function getRandomLonLat(lat, lon, meters)
 {
-  var r = meters/111300
-  var y0 = lat
-  ,   x0 = lon
-  ,    u = Math.random()
-  ,    v = Math.random()
-  ,    w = r * Math.sqrt(u)
-  ,    t = 2 * Math.PI * v
-  ,    x = w * Math.cos(t)
-  ,   y1 = w * Math.sin(t)
-  ,   x1 = x / Math.cos(y0)
+  var r  = meters/111300,
+      y0 = lat,
+      x0 = lon,
+      u = Math.random(),
+      v = Math.random(),
+      w = r * Math.sqrt(u),
+      t = 2 * Math.PI * v,
+      x = w * Math.cos(t),
+      y1 = w * Math.sin(t),
+      x1 = x / Math.cos(y0)
 
   newLat = y0 + y1
   newLon = x0 + x1
@@ -27,11 +27,9 @@ function getRandomLonLat(lat, lon, meters)
   return [newLat, newLon]
 }
 
-
 wss.on('connection', function connection(ws) {
 
   // creating random fake info for demo purposes
-
   wss.clients.forEach(function each(client) {
 
     if (client.readyState === WebSocket.OPEN) {
@@ -69,7 +67,7 @@ wss.on('connection', function connection(ws) {
         if(counter === 50000) {
           clearInterval(i);
         }
-      }, 50000);
+      }, 5000);
     }
   });
 });

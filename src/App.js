@@ -36,7 +36,7 @@ class App extends Component {
           <h2>Dashboard</h2>
         </div>
         <div className="App-content">
-          <Chart />
+          <Chart dataManager={this.dataManager}  />
           <Map dataManager={this.dataManager} ref={(MapMethods) => { this.MapMethods = MapMethods; }} />
         </div>
       </div>

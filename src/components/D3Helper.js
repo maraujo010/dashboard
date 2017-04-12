@@ -7,19 +7,19 @@ class D3Helper {
     this.el = el;
 
     this.margin = {top: 20, right: 20, bottom: 30, left: 40};
-    this.width  = 300 - this.margin.left - this.margin.right,
+    this.width  = 500 - this.margin.left - this.margin.right;
     this.height = 500 - this.margin.top - this.margin.bottom;
 
     this.x      = d3.scaleBand()
                   .rangeRound([0, this.width])
-                  .padding(0.01);
+                  .padding(0.1);
 
     this.y      = d3.scaleLinear()
                   .range([this.height, 0]);
 
     this.xAxis  = d3.axisBottom().scale(this.x);
 
-    this.yAxis  = d3.axisLeft().scale(this.y);
+    this.yAxis  = d3.axisLeft().scale(this.y).ticks(10);
 
   }
 
@@ -40,9 +40,7 @@ class D3Helper {
       .append("text")
       .attr("transform", "rotate(-90)")
       .attr("y", 6)
-      .attr("dy", ".71em")
-      .style("text-anchor", "end")
-      .text("Number of times active");
+      .attr("dy", ".71em");
 
     this.update(data);
 

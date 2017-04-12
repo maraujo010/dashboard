@@ -1,52 +1,28 @@
 import React, { Component } from 'react';
 import Slider from 'react-rangeslider'
-import BarChart from './BarChart.js'
 import 'react-rangeslider/lib/index.css'
-
-var SampleData2 = [
-  {
-    driverID  : "aaaa",
-    NSentDatasets: 12
-  },
-{
-      driverID  : "bbbbb",
-      NSentDatasets: 12
-  }
-];
-
-var SampleData = [
-  {
-    driverID  : "aaaa",
-    NSentDatasets: 12
-  },
-{
-      driverID : "dddddd",
-      NSentDatasets: 12
-  },
-  {
-        driverID  : "eeeee",
-        NSentDatasets: 40
-    }
-];
-
+import BarChart from './BarChart.js'
 class Chart extends Component {
 
   constructor() {
 
-     super();
+    super();
 
-     this.sliderTime = 6;
-
-     this.state = {
-       chartData: []
-     }
+    this.state = {
+      timeFrame: 6,
+      chartData: []
+    }
 
   }
 
   componentWillMount() {
 
+    var filteredDatasets = this.props.dataManager.filterLoadedDatasets(this.state.timeFrame);
+    var chartData        = this.buildChartData(filteredDatasets);
+
     this.setState({
-      chartData: SampleData
+      timeFrame: 6,
+      chartData: chartData
     });
 
   }
@@ -54,15 +30,47 @@ class Chart extends Component {
   //  handle slider event onChange
   handleOnChange = (value) => {
 
-    this.sliderTime = value;
+    this.setState({
+      timeFrame: value
+    })
+
+  }
+
+  // build chart data from filtered datasets
+  buildChartData(datasets) {
+
+    var chartData    = [],
+        dataHashing  = {};
+
+    for (let i=0; i<datasets.length; i++) {
+      var key = "" + datasets[i].company_id + datasets[i].driver_id;
+
+      if (dataHashing.hasOwnProperty(key))
+        dataHashing[key].NSentDatasets++;
+      else {
+        dataHashing[key] = { companyID     : datasets[i].company_id,
+                            driverID      : datasets[i].driver_id,
+                            NSentDatasets : 1 };
+                          }
+    }
+
+    for (let key in dataHashing)
+      if (dataHashing.hasOwnProperty(key))
+        chartData.push(dataHashing[key]);
+
+console.log(chartData);
+    return chartData;
 
   }
 
   // handle slider event onChangeComplete
   handleOnChangeComplete = (value) => {
 
+    var filteredDatasets = this.props.dataManager.filterLoadedDatasets(this.state.timeFrame);
+    var chartData        = this.buildChartData(filteredDatasets);
+
     this.setState({
-      chartData: SampleData2
+      chartData: chartData
     });
 
   }
@@ -71,11 +79,11 @@ class Chart extends Component {
   render() {
 
     // slider
-    let time = this.sliderTime;
 
+    const { timeFrame }  = this.state
     const formatTime = function(value) {
 
-      let label = "";
+      var label = "";
 
       if (value<24)
         label = value + ' hours';
@@ -90,18 +98,19 @@ class Chart extends Component {
     }
 
     return (
-      <div className="App-histchart-area">
+      <div className="App-chart-area">
         <div id="TimeSlider">
           <Slider
             min={6}
             max={240}
-            tooltip={false}
             step={24}
-            value={time}
+            value={timeFrame}
             orientation="horizontal"
+            format={formatTime}
+            tooltip={true}
             onChange={this.handleOnChange}
             onChangeComplete={this.handleOnChangeComplete} />
-          <div className='value'>{formatTime(time)}</div>
+          <div className='value'>{formatTime(timeFrame)}</div>
         </div>
         <div id="BarChart">
           <BarChart chartData={this.state.chartData} />

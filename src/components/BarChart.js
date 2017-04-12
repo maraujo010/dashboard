@@ -16,7 +16,8 @@ class BarChart extends Component {
 
   componentWillReceiveProps(props) {
 
-    this.d3Helper.update(props.chartData)
+    if (props.chartData!=this.props.chartData)
+      this.d3Helper.update(props.chartData)
 
   }
 

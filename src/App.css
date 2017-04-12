@@ -1,71 +1,92 @@
+body {
+  margin:0px;
+}
+
 .App {
   text-align: center;
 }
 
 .App-header {
+  margin:0px;
   background-color: #222;
-  height:  40px;
+  height:30px;
   padding: 10px;
   color: white;
 }
 
 .App-header h2{
   margin:5px;
-  font-size:20px;
+  font: 18px sans-serif;
 }
 
-.App-Content{
-  min-height: 500px;
+.App-content{
+  margin-top:20px;
+  float:left;
   width:100%;
-  height:1000px;
 }
 
-.App-histchart-area{
+.App-chart-area{
   float:left;
   width:50%;
-  height:100%;
 }
 
 .App-map-area{
   float:right;
   width:50%;
-  height:100%;
 }
 
 #map {
-  width: 100%;
-  height: 600px;
-}
-
-#TimeSlider {
-  width:80%;
-  margin: 40px auto;
-  height:70px;
+  width: 97%;
+  height: 550px;
 }
 
 #BarChart {
   width:100%;
 }
 
+#TimeSlider {
+  width:80%;
+  margin: 48px auto;
+  height:70px;
+}
+
+.rangeslider__fill {
+    background-color: steelblue !important;
+    border-radius: !important;
+}
+
+/* overriding slider styles */
+
+.rangeslider__tooltip:after {
+  left:18px !important;
+}
+
+.rangeslider__tooltip {
+  background-color: #36355f !important;
+  width:55px !important;
+  height:38px !important;
+  left:-19px;
+}
+
+.rangeslider__handle {
+  width: 10px !important;
+  height: 30px !important;
+  border-radius: 0px !important;
+}
+
+.rangeslider-horizontal{
+  border-radius: 0px !important;
+}
+
+.rangeslider__handle:after {
+    display:none;
+}
+
+/* bar chart */
 .bar {
   fill: steelblue;
 }
 
 .bar:hover {
   fill: brown;
-}
-
-.axis {
-  font: 10px sans-serif;
-}
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.x.axis path {
-  display: none;
 }
