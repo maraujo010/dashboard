@@ -37,13 +37,35 @@
   height: 600px;
 }
 
-#timeSlider {
+#TimeSlider {
   width:80%;
-  margin: 70px auto;
+  margin: 40px auto;
+  height:70px;
 }
 
-#j3Chart {
-  z-index:1000000;
+#BarChart {
   width:100%;
-  height:300px;
+}
+
+.bar {
+  fill: steelblue;
+}
+
+.bar:hover {
+  fill: brown;
+}
+
+.axis {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
 }

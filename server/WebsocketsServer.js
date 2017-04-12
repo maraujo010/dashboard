@@ -41,7 +41,7 @@ wss.on('connection', function connection(ws) {
       var i = setInterval(function(){
 
         var idCompany  = getRandomInt(1,10);
-        var idDriver   = getRandomInt(1,1000);
+        var idDriver   = idCompany+getRandomInt(1,100);
         var timeStamp  = new Date().toISOString();
         var speed      = 123.45;
         var accuracy   = 12.0;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Map from './components/Map.js';
-import HistChart from './components/HistChart.js';
+import Chart from './components/Chart.js';
 import DataManager from './DataManager.js';
 import './App.css';
 
@@ -36,7 +36,7 @@ class App extends Component {
           <h2>Dashboard</h2>
         </div>
         <div className="App-content">
-          <HistChart />
+          <Chart />
           <Map dataManager={this.dataManager} ref={(MapMethods) => { this.MapMethods = MapMethods; }} />
         </div>
       </div>
