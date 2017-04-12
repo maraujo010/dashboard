@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import D3Helper from './D3Helper.js'
 
 
-class BarChart extends Component {
+class D3Chart extends Component {
 
   componentDidMount() {
 
@@ -22,12 +22,10 @@ class BarChart extends Component {
   }
 
   render() {
-
     return (
       <div className="Chart"></div>
     );
   }
-
 }
 
-export default BarChart
+export default D3Chart

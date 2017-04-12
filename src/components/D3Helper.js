@@ -7,7 +7,7 @@ class D3Helper {
     this.el = el;
 
     this.margin = {top: 20, right: 20, bottom: 30, left: 40};
-    this.width  = 500 - this.margin.left - this.margin.right;
+    this.width  = 650 - this.margin.left - this.margin.right;
     this.height = 500 - this.margin.top - this.margin.bottom;
 
     this.x      = d3.scaleBand()

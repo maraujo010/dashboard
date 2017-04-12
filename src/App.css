@@ -20,7 +20,7 @@ body {
 }
 
 .App-content{
-  margin-top:20px;
+  margin:20px 0 20px 0;
   float:left;
   width:100%;
 }
@@ -37,22 +37,19 @@ body {
 
 #map {
   width: 97%;
-  height: 550px;
+  height: 600px;
 }
 
-#BarChart {
-  width:100%;
-}
 
 #TimeSlider {
   width:80%;
   margin: 48px auto;
-  height:70px;
+  height:20px;
 }
 
 .rangeslider__fill {
-    background-color: steelblue !important;
-    border-radius: !important;
+  background-color: steelblue !important;
+  border-radius: 0 !important;
 }
 
 /* overriding slider styles */
@@ -69,9 +66,9 @@ body {
 }
 
 .rangeslider__handle {
-  width: 10px !important;
+  width: 15px !important;
   height: 30px !important;
-  border-radius: 0px !important;
+  border-radius: 0 !important;
 }
 
 .rangeslider-horizontal{
@@ -82,7 +79,25 @@ body {
     display:none;
 }
 
+/* chart */
+.chartTitle {
+    font-family: sans-serif;
+    font-size: 22px;
+    font-weight: bold;
+    color: grey;
+}
+
+.chartTitle {
+  margin-bottom:20px;
+}
+
 /* bar chart */
+
+
+#BubbleChart {
+  width:100%;
+}
+
 .bar {
   fill: steelblue;
 }

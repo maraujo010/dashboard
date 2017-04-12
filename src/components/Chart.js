@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
-import BarChart from './BarChart.js'
+import D3Chart from './D3Chart.js'
+
 class Chart extends Component {
 
   constructor() {
@@ -9,6 +10,7 @@ class Chart extends Component {
     super();
 
     this.state = {
+      selectedTimeFrame: 6,
       timeFrame: 6,
       chartData: []
     }
@@ -21,6 +23,7 @@ class Chart extends Component {
     var chartData        = this.buildChartData(filteredDatasets);
 
     this.setState({
+      selectedTimeFrame: 6,
       timeFrame: 6,
       chartData: chartData
     });
@@ -33,6 +36,18 @@ class Chart extends Component {
     this.setState({
       timeFrame: value
     })
+  }
+
+  // handle slider event onChangeComplete
+  handleOnChangeComplete = (value) => {
+
+    var filteredDatasets = this.props.dataManager.filterLoadedDatasets(this.state.timeFrame);
+    var chartData        = this.buildChartData(filteredDatasets);
+
+    this.setState({
+      chartData: chartData,
+      selectedTimeFrame: this.state.timeFrame
+    });
 
   }
 
@@ -48,41 +63,28 @@ class Chart extends Component {
       if (dataHashing.hasOwnProperty(key))
         dataHashing[key].NSentDatasets++;
       else {
-        dataHashing[key] = { companyID     : datasets[i].company_id,
-                            driverID      : datasets[i].driver_id,
-                            NSentDatasets : 1 };
-                          }
+        dataHashing[key] = {
+          companyID: datasets[i].company_id,
+          driverID: datasets[i].driver_id,
+          NSentDatasets: 1
+        };
+      }
     }
 
     for (let key in dataHashing)
       if (dataHashing.hasOwnProperty(key))
         chartData.push(dataHashing[key]);
 
-console.log(chartData);
     return chartData;
-
   }
-
-  // handle slider event onChangeComplete
-  handleOnChangeComplete = (value) => {
-
-    var filteredDatasets = this.props.dataManager.filterLoadedDatasets(this.state.timeFrame);
-    var chartData        = this.buildChartData(filteredDatasets);
-
-    this.setState({
-      chartData: chartData
-    });
-
-  }
-
 
   render() {
 
     // slider
 
-    const { timeFrame }  = this.state
-    const formatTime = function(value) {
+    const { timeFrame }          = this.state;
 
+    const formatTime = function(value) {
       var label = "";
 
       if (value<24)
@@ -110,10 +112,10 @@ console.log(chartData);
             tooltip={true}
             onChange={this.handleOnChange}
             onChangeComplete={this.handleOnChangeComplete} />
-          <div className='value'>{formatTime(timeFrame)}</div>
         </div>
-        <div id="BarChart">
-          <BarChart chartData={this.state.chartData} />
+        <div className='chartTitle'>Active drivers since last {formatTime(this.state.selectedTimeFrame)}</div>
+        <div id="BubbleChart">
+          <D3Chart chartData={this.state.chartData} />
         </div>
       </div>
     );
