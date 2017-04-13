@@ -20,7 +20,7 @@ class Chart extends Component {
   componentWillMount() {
 
     var filteredDatasets = this.props.dataManager.filterLoadedDatasets(this.state.timeFrame);
-    var chartData        = this.buildChartData(filteredDatasets);
+    var chartData        = this.buildBarChartData(filteredDatasets);
 
     this.setState({
       selectedTimeFrame: 6,
@@ -42,7 +42,7 @@ class Chart extends Component {
   handleOnChangeComplete = (value) => {
 
     var filteredDatasets = this.props.dataManager.filterLoadedDatasets(this.state.timeFrame);
-    var chartData        = this.buildChartData(filteredDatasets);
+    var chartData        = this.buildBarChartData(filteredDatasets);
 
     this.setState({
       chartData: chartData,
@@ -52,28 +52,30 @@ class Chart extends Component {
   }
 
   // build chart data from filtered datasets
-  buildChartData(datasets) {
+  buildBarChartData(datasets) {
 
-    var chartData    = [],
-        dataHashing  = {};
+    var chartData = [],
+        companys  = {},
+        drivers   = [];
 
     for (let i=0; i<datasets.length; i++) {
-      var key = "" + datasets[i].company_id + datasets[i].driver_id;
+      var key = datasets[i].company_id;
 
-      if (dataHashing.hasOwnProperty(key))
-        dataHashing[key].NSentDatasets++;
+      if (companys.hasOwnProperty(key) && drivers.indexOf(datasets[i].driver_id))
+        companys[key].NumDrivers++;
       else {
-        dataHashing[key] = {
+        companys[key] = {
           companyID: datasets[i].company_id,
-          driverID: datasets[i].driver_id,
-          NSentDatasets: 1
+          NumDrivers: 1
         };
+
+        drivers.push(datasets[i].driver_id);
       }
     }
 
-    for (let key in dataHashing)
-      if (dataHashing.hasOwnProperty(key))
-        chartData.push(dataHashing[key]);
+    for (let key in companys)
+      if (companys.hasOwnProperty(key))
+        chartData.push(companys[key]);
 
     return chartData;
   }
@@ -103,9 +105,9 @@ class Chart extends Component {
       <div className="App-chart-area">
         <div id="TimeSlider">
           <Slider
-            min={6}
+            min={0}
             max={240}
-            step={24}
+            step={6}
             value={timeFrame}
             orientation="horizontal"
             format={formatTime}
@@ -113,8 +115,8 @@ class Chart extends Component {
             onChange={this.handleOnChange}
             onChangeComplete={this.handleOnChangeComplete} />
         </div>
-        <div className='title'>Drivers activity since last {formatTime(this.state.selectedTimeFrame)}</div>
-        <div id="BubbleChart">
+        <div className='title'>Number of active drivers by company since last {formatTime(this.state.selectedTimeFrame)}</div>
+        <div id="BarChart">
           <D3Chart chartData={this.state.chartData} />
         </div>
       </div>
