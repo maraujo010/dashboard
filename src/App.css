@@ -61,14 +61,14 @@ body {
 /* overriding slider styles */
 
 .rangeslider__tooltip:after {
-  left:18px !important;
+  left:24px !important;
 }
 
 .rangeslider__tooltip {
   background-color: #36355f !important;
-  width:55px !important;
+  width:64px !important;
   height:38px !important;
-  left:-19px;
+  left:-25px;
 }
 
 .rangeslider__handle {

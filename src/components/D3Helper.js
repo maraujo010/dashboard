@@ -21,8 +21,6 @@ class D3Helper {
 
     this.xAxis  = d3.axisBottom().scale(this.x);
 
-    this.yAxis  = d3.axisLeft().scale(this.y).ticks(10);
-
     this.tip = d3.tip()
       .attr('class', 'd3-tip')
       .offset([-10, 0])
@@ -58,10 +56,16 @@ class D3Helper {
 
   update(data) {
 
+    var maxNumDrivers = Math.max.apply(Math, data.map(function(d){return d.NumDrivers;}));
+
+    this.yAxis  = d3.axisLeft().scale(this.y)
+                  .ticks(maxNumDrivers < 10 ? 10 : Math.floor(maxNumDrivers / 10))
+                  .tickFormat(d3.format('.0f'));
+
     var _this = this;
 
     this.x.domain(data.map(function(d) { return d.companyID; }));
-    this.y.domain([0, d3.max(data, function(d) { return d.NumDrivers; })]);
+    this.y.domain([0, maxNumDrivers]);
 
     this.svg.select('.x.axis').transition().duration(300).call(this.xAxis);
     this.svg.select(".y.axis").transition().duration(300).call(this.yAxis);

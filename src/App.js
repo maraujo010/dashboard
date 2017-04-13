@@ -25,7 +25,7 @@ class App extends Component {
       _self.dataManager.SaveDataset(event.data);
 
       var dataset = JSON.parse(event.data);
-      _self.MapMethods.DrawMarker(dataset.longitude, dataset.latitude, dataset.driver_id);
+      _self.MapMethods.AddMarker(dataset);
     }
   }
 
