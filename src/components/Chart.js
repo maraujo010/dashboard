@@ -113,7 +113,7 @@ class Chart extends Component {
             onChange={this.handleOnChange}
             onChangeComplete={this.handleOnChangeComplete} />
         </div>
-        <div className='chartTitle'>Active drivers since last {formatTime(this.state.selectedTimeFrame)}</div>
+        <div className='title'>Drivers activity since last {formatTime(this.state.selectedTimeFrame)}</div>
         <div id="BubbleChart">
           <D3Chart chartData={this.state.chartData} />
         </div>

@@ -83,6 +83,7 @@ class Map extends Component {
 
     return (
       <div className="App-map-area">
+              <div className='title'>Active drivers in the last 24 hours</div>
         <div id="map" className="map"></div>
       </div>
     );

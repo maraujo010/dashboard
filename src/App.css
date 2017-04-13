@@ -25,6 +25,13 @@ body {
   width:100%;
 }
 
+.title {
+  font-family: sans-serif;
+  font-size: 22px;
+  font-weight: bold;
+  color: grey;
+}
+
 .App-chart-area{
   float:left;
   width:50%;
@@ -36,10 +43,10 @@ body {
 }
 
 #map {
+  margin-top:20px;
   width: 97%;
   height: 600px;
 }
-
 
 #TimeSlider {
   width:80%;
@@ -80,12 +87,6 @@ body {
 }
 
 /* chart */
-.chartTitle {
-    font-family: sans-serif;
-    font-size: 22px;
-    font-weight: bold;
-    color: grey;
-}
 
 .chartTitle {
   margin-bottom:20px;
