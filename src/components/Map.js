@@ -57,16 +57,17 @@ class Map extends Component {
 
        _this.overlay.setPosition(evt.coordinate);
 
-       let strDate = feature.get('timestamp').replace('T',' ') + ' UTC';
-       let dateObj = new Date(strDate);
+       var arrDate           = feature.get('timestamp').split(/[^0-9]/);
+       var dateUnixTimestamp = Date.UTC(arrDate[0],arrDate[1]-1,arrDate[2],arrDate[3],arrDate[4],arrDate[5]);
 
+       let dateObj = new Date(dateUnixTimestamp);
        let posDate = dateObj.toLocaleDateString();
        let posTime = dateObj.getHours() + ":" + (dateObj.getMinutes() < 10 ? "0" + dateObj.getMinutes() : dateObj.getMinutes());
 
-       _this.tooltip.innerHTML = "<span>" + "CompanyID: " + feature.get('companyID') + "</span>" +
-                                 "<span>" + "DriverID: " + feature.get('driverID') + "</span>" +
-                                 "<span>" + "Date: " + posDate + "</span>" +
-                                 "<span>" + "Time: " + posTime + "</span>";
+       _this.tooltip.innerHTML = "<span> CompanyID: " + feature.get('companyID') + "</span>" +
+                                 "<span> DriverID: " + feature.get('driverID') + "</span>" +
+                                 "<span> Date: " + posDate + "</span>" +
+                                 "<span> Time: " + posTime + "</span>";
      }
 
    });

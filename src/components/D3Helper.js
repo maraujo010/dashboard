@@ -54,12 +54,18 @@ class D3Helper {
 
   }
 
+  orderOfMagnitude(n) {
+
+    var order = Math.floor(Math.log(n) / Math.LN10);
+    return Math.pow(10,order);
+  }
+
   update(data) {
 
     var maxNumDrivers = Math.max.apply(Math, data.map(function(d){return d.NumDrivers;}));
 
     this.yAxis  = d3.axisLeft().scale(this.y)
-                  .ticks(maxNumDrivers < 10 ? 10 : Math.floor(maxNumDrivers / 10))
+                  .ticks(this.orderOfMagnitude(maxNumDrivers))
                   .tickFormat(d3.format('.0f'));
 
     var _this = this;

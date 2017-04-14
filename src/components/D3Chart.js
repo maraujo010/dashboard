@@ -16,7 +16,7 @@ class D3Chart extends Component {
 
   componentWillReceiveProps(props) {
 
-    if (props.chartData!=this.props.chartData)
+    if (props.chartData!==this.props.chartData)
       this.d3Helper.update(props.chartData)
 
   }

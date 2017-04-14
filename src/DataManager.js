@@ -24,10 +24,10 @@ class DataManager {
 
   GetUnixTimestampFromStr(strDate) {
 
-    var arrDate = strDate.split(/[^0-9]/);
-    var dateObj = new Date (arrDate[0],arrDate[1]-1,arrDate[2],arrDate[3],arrDate[4],arrDate[5]);
+    var arrDate           = strDate.split(/[^0-9]/);
+    var dateUnixTimestamp = Date.UTC(arrDate[0],arrDate[1]-1,arrDate[2],arrDate[3],arrDate[4],arrDate[5]);
 
-    return Math.floor(dateObj.getTime() / 1000);
+    return Math.floor(dateUnixTimestamp / 1000);
   }
 
   // Remove all localStored datasets that are older than current date minus 10 days
