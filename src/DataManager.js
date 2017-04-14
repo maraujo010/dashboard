@@ -7,14 +7,12 @@ class DataManager {
   }
 
   // Adds new dataset to array in memory and stores it locally
-  SaveDataset(dataStr) {
+  saveDataset(dataset) {
 
     var stored  = JSON.parse(localStorage.getItem('datasets'));
 
     if (!stored)
       stored = [];
-
-    var dataset = JSON.parse(dataStr);
 
     stored.push(dataset);
     localStorage.setItem('datasets', JSON.stringify(stored));

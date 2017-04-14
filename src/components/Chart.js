@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
 import D3Chart from './D3Chart.js'
@@ -6,7 +6,6 @@ import D3Chart from './D3Chart.js'
 class Chart extends Component {
 
   constructor() {
-
     super();
 
     this.state = {
@@ -14,7 +13,6 @@ class Chart extends Component {
       timeFrame: 6,
       chartData: []
     }
-
   }
 
   componentWillMount() {
@@ -40,6 +38,11 @@ class Chart extends Component {
 
   // handle slider event onChangeComplete
   handleOnChangeComplete = (value) => {
+    this.update();
+  }
+
+  // Update chart data
+  update() {
 
     var filteredDatasets = this.props.dataManager.filterLoadedDatasets(this.state.timeFrame);
     var chartData        = this.buildBarChartData(filteredDatasets);

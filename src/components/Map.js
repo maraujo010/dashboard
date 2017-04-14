@@ -31,7 +31,7 @@ class Map extends Component {
    var newLayer = new ol.layer.Tile({source: new ol.source.OSM()});
 
    this.map.addLayer(newLayer);
-   this.AddAllMarkers();
+   this.addAllMarkers();
 
    this.tooltip = document.getElementById('tooltip');
    this.overlay = new ol.Overlay({
@@ -61,7 +61,7 @@ class Map extends Component {
        var dateUnixTimestamp = Date.UTC(arrDate[0],arrDate[1]-1,arrDate[2],arrDate[3],arrDate[4],arrDate[5]);
 
        let dateObj = new Date(dateUnixTimestamp);
-       let posDate = dateObj.toLocaleDateString();
+       let posDate = dateObj.toLocaleDateString('de-DE');
        let posTime = dateObj.getHours() + ":" + (dateObj.getMinutes() < 10 ? "0" + dateObj.getMinutes() : dateObj.getMinutes());
 
        _this.tooltip.innerHTML = "<span> CompanyID: " + feature.get('companyID') + "</span>" +
@@ -74,7 +74,7 @@ class Map extends Component {
   }
 
   //Draw a Marker
-  AddMarker(dataset) {
+  addMarker(dataset) {
 
     let iconFeature = new ol.Feature({
       geometry: new ol.geom.Point(ol.proj.transform([dataset.longitude, dataset.latitude],
@@ -95,7 +95,7 @@ class Map extends Component {
   }
 
   // Add markers
-  AddAllMarkers() {
+  addAllMarkers() {
 
     var datasets = this.props.dataManager.GetLastActiveDrivers();
 

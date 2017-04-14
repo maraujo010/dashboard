@@ -85,14 +85,16 @@ body {
 }
 
 #tooltip span {
-  padding:3px 5px 0px 5px;
+  padding:5px 5px 0px 5px;
   float:left;
   display:inline-block;
+  font-size:11px;
+  font-family: arial;
 }
 
 #TimeSlider {
   width:80%;
-  margin: 48px auto 40px auto;
+  margin:48px auto 40px auto;
 }
 
 .rangeslider__fill {

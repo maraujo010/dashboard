@@ -20,10 +20,11 @@ class App extends Component {
 
     this.socket.onmessage = function(event) {
       //console.log(event.data);
-      _self.dataManager.SaveDataset(event.data);
-
       var dataset = JSON.parse(event.data);
-      _self.MapMethods.AddMarker(dataset);
+
+      _self.dataManager.saveDataset(dataset);
+      _self.mapMethods.addMarker(dataset);
+      _self.chartMethods.update();
     }
 
   }
@@ -35,8 +36,8 @@ class App extends Component {
           <h2>Dashboard</h2>
         </div>
         <div className="App-content">
-          <Chart dataManager={this.dataManager}  />
-          <Map dataManager={this.dataManager} ref={(MapMethods) => { this.MapMethods = MapMethods; }} />
+          <Chart dataManager={this.dataManager} ref={(chartMethods) => { this.chartMethods = chartMethods; }} />
+          <Map dataManager={this.dataManager} ref={(mapMethods) => { this.mapMethods = mapMethods; }} />
         </div>
       </div>
     );
