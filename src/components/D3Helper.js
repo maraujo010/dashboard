@@ -25,8 +25,8 @@ class D3Helper {
       .attr('class', 'd3-tip')
       .offset([-10, 0])
       .html(function(d) {
-        return "<strong>CompanyID:</strong> <span>" + d.companyID + "</span><br/>" +
-               "<strong>Active drivers:</strong> <span>" + d.NumDrivers + "</span>";
+        return "<span>CompanyID: " + d.companyID + "</span><br/>" +
+               "<span>Active drivers: " + d.NumDrivers + "</span>";
     });
 
   }

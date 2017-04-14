@@ -22,7 +22,7 @@ class DataManager {
     this.loadedDatasets = stored;
   }
 
-  GetUnixTimestampFromDateStr(strDate) {
+  GetUnixTimestampFromStr(strDate) {
 
     var arrDate = strDate.split(/[^0-9]/);
     var dateObj = new Date (arrDate[0],arrDate[1]-1,arrDate[2],arrDate[3],arrDate[4],arrDate[5]);
@@ -44,7 +44,7 @@ class DataManager {
       for (let i=0; i<stored.length; i++) {
 
         let strDate = stored[i].timestamp;
-        let datasetUnixTimestamp =  this.GetUnixTimestampFromDateStr(strDate);
+        let datasetUnixTimestamp =  this.GetUnixTimestampFromStr(strDate);
 
         if (datasetUnixTimestamp>currentUnixTimeStamp-timeFrame)
           purged.push(stored[i]);
@@ -70,7 +70,7 @@ class DataManager {
       for (let i=0; i<stored.length; i++) {
 
         let strDate = stored[i].timestamp;
-        let datasetUnixTimestamp =  this.GetUnixTimestampFromDateStr(strDate);
+        let datasetUnixTimestamp =  this.GetUnixTimestampFromStr(strDate);
 
         if (datasetUnixTimestamp>currentUnixTimeStamp-timeFrame)
           lastActive.push(stored[i]);
@@ -90,7 +90,7 @@ class DataManager {
     for(let i=0; i<this.loadedDatasets.length; i++) {
 
       let strDate = this.loadedDatasets[i].timestamp;
-      let datasetUnixTimestamp = this.GetUnixTimestampFromDateStr(strDate);
+      let datasetUnixTimestamp = this.GetUnixTimestampFromStr(strDate);
 
       if (datasetUnixTimestamp>(currentUnixTimeStamp-timeFrame*60*60))
         filtered.push(this.loadedDatasets[i]);

@@ -20,13 +20,13 @@ class Map extends Component {
     });
 
     this.map = new ol.Map({
-        target:'map',
-        renderer:'canvas',
-    	  view: new ol.View({
-    		    center: ol.proj.transform([13.23324, 52.234234], 'EPSG:4326', 'EPSG:3857'),
-            zoom:14
-    	     })
-         });
+      target:'map',
+      renderer:'canvas',
+    	view: new ol.View({
+    		center: ol.proj.transform([13.23324, 52.234234], 'EPSG:4326', 'EPSG:3857'),
+        zoom:15
+    	})
+    });
 
    var newLayer = new ol.layer.Tile({source: new ol.source.OSM()});
 
@@ -36,44 +36,52 @@ class Map extends Component {
    this.tooltip = document.getElementById('tooltip');
    this.overlay = new ol.Overlay({
      element: this.tooltip,
-     offset: [10, 0],
+     offset: [-49, -15],
      positioning: 'bottom-left'
    });
 
    this.map.addOverlay(this.overlay);
-   this.map.on('pointermove', this.displayTooltip);
 
-  }
+   var _this = this;
 
-  displayTooltip(evt) {
+   this.map.on('pointermove', function(evt) {
 
-    var pixel   = evt.pixel;
+     var pixel   = evt.pixel;
+     var feature = _this.map.forEachFeatureAtPixel(pixel, function(feature) {
+       return feature;
+     });
 
-    try {
-      
-      var feature = this.map.forEachFeatureAtPixel(pixel, function(feature) {
-        return feature;
-      });
+     _this.tooltip.style.display = feature ? '' : 'none';
 
-      this.tooltip.style.display = feature ? '' : 'none';
-  console.log(feature);
-      if (feature) {
+     if (feature) {
 
-        this.overlay.setPosition(evt.coordinate);
-        this.tooltip.innerHTML = feature.get('name');
-      }
-    }
-    catch(err) {
-    console.log("a");
-    }
+       _this.overlay.setPosition(evt.coordinate);
+
+       let strDate = feature.get('timestamp').replace('T',' ') + ' UTC';
+       let dateObj = new Date(strDate);
+
+       let posDate = dateObj.toLocaleDateString();
+       let posTime = dateObj.getHours() + ":" + (dateObj.getMinutes() < 10 ? "0" + dateObj.getMinutes() : dateObj.getMinutes());
+
+       _this.tooltip.innerHTML = "<span>" + "CompanyID: " + feature.get('companyID') + "</span>" +
+                                 "<span>" + "DriverID: " + feature.get('driverID') + "</span>" +
+                                 "<span>" + "Date: " + posDate + "</span>" +
+                                 "<span>" + "Time: " + posTime + "</span>";
+     }
+
+   });
   }
 
   //Draw a Marker
   AddMarker(dataset) {
 
     let iconFeature = new ol.Feature({
-      geometry: new ol.geom.Point(ol.proj.transform([dataset.longitude, dataset.latitude], 'EPSG:4326',
-      'EPSG:3857')),
+      geometry: new ol.geom.Point(ol.proj.transform([dataset.longitude, dataset.latitude],
+                  'EPSG:4326',
+                  'EPSG:3857')),
+      companyID: dataset.company_id,
+      driverID: dataset.driver_id,
+      timestamp: dataset.timestamp
     });
 
     this.iconFeatures.push(iconFeature);
@@ -93,8 +101,12 @@ class Map extends Component {
     for (let i=0; i<datasets.length; i++) {
 
       let iconFeature = new ol.Feature({
-        geometry: new ol.geom.Point(ol.proj.transform([datasets[i].longitude, datasets[i].latitude], 'EPSG:4326',
-        'EPSG:3857')),
+        geometry: new ol.geom.Point(ol.proj.transform([datasets[i].longitude, datasets[i].latitude],
+                    'EPSG:4326',
+                    'EPSG:3857')),
+        companyID: datasets[i].company_id,
+        driverID: datasets[i].driver_id,
+        timestamp: datasets[i].timestamp
       });
 
       this.iconFeatures.push(iconFeature);
