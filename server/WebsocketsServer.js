@@ -40,19 +40,21 @@ wss.on('connection', function connection(ws) {
 
         var idCompany  = getRandomInt(1,10);
         var idDriver   = idCompany+getRandomInt(1,100);
-        var timeStamp  = new Date().toISOString();
+
         var speed      = 123.45;
         var accuracy   = 12.0;
 
-        newLatLon = getRandomLonLat(52.234234, 13.23324, 500);
+        var now        = new Date().toISOString();;
+        var nowUTC     = now.replace(/\..+/, '');
 
-        var lat       = newLatLon[0];
-        var lon       = newLatLon[1];
+        var newLatLon  = getRandomLonLat(52.234234, 13.23324, 500);
+        var lat        = newLatLon[0];
+        var lon        = newLatLon[1];
 
         var driverInfoObj = {
           'company_id':idCompany,
           'driver_id':idDriver,
-          'timestamp':timeStamp,
+          'timestamp':nowUTC,
           'latitude':lat,
           'longitude':lon,
           'accuracy':accuracy,
@@ -60,6 +62,7 @@ wss.on('connection', function connection(ws) {
         };
 
         ws.send(JSON.stringify(driverInfoObj), function (error){ /* ignore errors */ });
+        //console.log(driverInfoObj);
 
         counter++;
 
