@@ -65,11 +65,11 @@ class D3Helper {
 
     var maxNumDrivers = Math.max.apply(Math, data.map(function(d){return d.NumDrivers;}));
 
-    this.yAxis  = d3.axisLeft().scale(this.y)
-                  .ticks(this.orderOfMagnitude(maxNumDrivers)==1 ? maxNumDrivers : this.orderOfMagnitude(maxNumDrivers))
-                  .tickFormat(d3.format('.0f'));
+    this.yAxis = d3.axisLeft().scale(this.y)
+                .ticks(this.orderOfMagnitude(maxNumDrivers)===1 ? maxNumDrivers : this.orderOfMagnitude(maxNumDrivers))
+                .tickFormat(d3.format('.0f'));
 
-    var _self = this;
+    var _self  = this;
 
     this.x.domain(data.map(function(d) { return d.companyID; }));
     this.y.domain([0, maxNumDrivers]);
@@ -88,9 +88,11 @@ class D3Helper {
     .on('mouseover', this.tip.show)
     .on('mouseout', this.tip.hide)
     .attr("class", "bar")
-    .transition().duration(300)
     .attr("x", function(d) { return _self.x(d.companyID); })
     .attr("width", this.x.bandwidth())
+    .attr("height", 0)
+    .attr("y", function (d) { return _self.height; })
+    .transition().duration(700)
     .attr("y", function(d) { return _self.y(d.NumDrivers); })
     .attr("height", function(d) { return _self.height - _self.y(d.NumDrivers); });
     }

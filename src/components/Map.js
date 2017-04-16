@@ -69,7 +69,6 @@ class Map extends Component {
                                  "<span> Date: " + posDate + "</span>" +
                                  "<span> Time: " + posTime + "</span>";
      }
-
    });
   }
 

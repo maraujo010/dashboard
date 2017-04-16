@@ -14,8 +14,25 @@ class D3Chart extends Component {
 
   componentWillReceiveProps(props) {
 
-    if (props.chartData!==this.props.chartData)
-      this.d3Helper.update(props.chartData)
+    // check if chartData changed in the parent component
+    if (props.chartData!==this.props.chartData) {
+
+      if (this.chartDataChanged(props.chartData, this.props.chartData))
+        this.d3Helper.update(props.chartData)
+    }
+  }
+
+  chartDataChanged(oldData, newData) {
+
+    if (oldData.length!==newData.length)
+      return true;
+    else
+      for (let i=0; i<oldData.length; i++) {
+        if (JSON.stringify(oldData[i]) !== JSON.stringify(newData[i]))
+          return true;
+      }
+
+    return false;
   }
 
   render() {

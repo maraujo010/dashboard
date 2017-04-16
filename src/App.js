@@ -26,7 +26,6 @@ class App extends Component {
       _self.mapMethods.addMarker(dataset);
       _self.chartMethods.update();
     }
-
   }
 
   render() {
