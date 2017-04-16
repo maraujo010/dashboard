@@ -108,9 +108,9 @@ class Chart extends Component {
       <div className="App-chart-area">
         <div id="TimeSlider">
           <Slider
-            min={0}
+            min={6}
             max={240}
-            step={6}
+            step={24}
             value={timeFrame}
             orientation="horizontal"
             format={formatTime}

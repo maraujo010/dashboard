@@ -2,7 +2,7 @@ class DataManager {
 
   constructor() {
 
-    this.loadedDatasets = this.PurgeStoredData();
+    this.loadedDatasets = this.purgeStoredData();
 
   }
 
@@ -29,7 +29,7 @@ class DataManager {
   }
 
   // Remove all localStored datasets that are older than current date minus 10 days
-  PurgeStoredData() {
+  purgeStoredData() {
 
     var timeFrame = 60*60*24*10;
     var purged    = [];

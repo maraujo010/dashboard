@@ -36,7 +36,7 @@ wss.on('connection', function connection(ws) {
 
       var counter = 0;
 
-      var i = setInterval(function(){
+      var int = setInterval(function(){
 
         var idCompany  = getRandomInt(1,10);
         var idDriver   = idCompany+getRandomInt(1,100);
@@ -68,7 +68,7 @@ wss.on('connection', function connection(ws) {
 
         // demo: sending 500000 datasets
         if(counter === 50000) {
-          clearInterval(i);
+          clearInterval(int);
         }
       }, 5000);
     }

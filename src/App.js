@@ -28,6 +28,25 @@ class App extends Component {
     }
   }
 
+  componentDidMount() {
+
+    var _self = this;
+
+    // purge older datasets (keep only the ones less than 10 days). runs every hour
+    var int = setInterval(function(){
+      try {
+         _self.dataManager.loadedDatasets = _self.dataManager.purgeStoredData();
+        console.log("purging...");
+      }
+      catch(err) {
+        console.log(err.message);
+        clearInterval(int);
+      }
+    }, 1000*60*60);
+
+
+  }
+
   render() {
     return (
       <div className="App">
