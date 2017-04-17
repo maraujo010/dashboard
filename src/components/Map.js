@@ -29,9 +29,21 @@ class Map extends Component {
     });
 
    var newLayer = new ol.layer.Tile({source: new ol.source.OSM()});
-
    this.map.addLayer(newLayer);
-   this.addAllMarkers();
+
+   var vectorSource = new ol.source.Vector({
+     features: this.iconFeatures
+   });
+
+   this.vectorLayer = new ol.layer.Vector({
+     source: vectorSource,
+     style: this.iconStyle
+   });
+
+   this.map.addLayer(this.vectorLayer);
+   this.update();
+
+   // tooltips
 
    this.tooltip = document.getElementById('tooltip');
    this.overlay = new ol.Overlay({
@@ -93,8 +105,8 @@ class Map extends Component {
     this.vectorLayer.setSource(vectorSource);
   }
 
-  // Add markers
-  addAllMarkers() {
+  // update map
+  update() {
 
     var datasets = this.props.dataManager.GetLastActiveDrivers();
 
@@ -116,18 +128,13 @@ class Map extends Component {
       features: this.iconFeatures
     });
 
-    this.vectorLayer = new ol.layer.Vector({
-      source: vectorSource,
-      style: this.iconStyle
-    });
-
-    this.map.addLayer(this.vectorLayer);
+    this.vectorLayer.setSource(vectorSource);
   }
 
   render() {
 
     return (
-      <div className="App-map-area">
+      <div>
         <div className='title'>Active drivers in the last 24 hours</div>
         <div id="map" className="map"></div>
         <div id="tooltip"></div>

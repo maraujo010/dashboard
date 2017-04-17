@@ -5,54 +5,61 @@ d3.tip = d3Tip;
 
 class D3Helper {
 
-  constructor(el) {
+  constructor(el, type) {
 
-    this.el = el;
+    this.el   = el;
+    this.type = type;
 
-    this.margin = {top: 20, right: 20, bottom: 30, left: 40};
-    this.width  = 600 - this.margin.left - this.margin.right;
-    this.height = 390 - this.margin.top - this.margin.bottom;
+    if (this.type==="bars") {
 
-    this.x      = d3.scaleBand()
-                  .rangeRound([0, this.width])
-                  .padding(0.1);
+          this.margin = {top: 20, right: 20, bottom: 30, left: 40};
+          this.width  = 600 - this.margin.left - this.margin.right;
+          this.height = 390 - this.margin.top - this.margin.bottom;
 
-    this.y      = d3.scaleLinear()
-                  .range([this.height, 0]);
+          this.x      = d3.scaleBand()
+                        .rangeRound([0, this.width])
+                        .padding(0.1);
 
-    this.xAxis  = d3.axisBottom().scale(this.x);
+          this.y      = d3.scaleLinear()
+                        .range([this.height, 0]);
 
-    this.tip = d3.tip()
-      .attr('class', 'd3-tip')
-      .offset([-10, 0])
-      .html(function(d) {
-        return "<span>CompanyID: " + d.companyID + "</span><br/>" +
-               "<span>Active drivers: " + d.NumDrivers + "</span>";
-    });
+          this.xAxis  = d3.axisBottom().scale(this.x);
+
+          this.tip = d3.tip()
+            .attr('class', 'd3-tip')
+            .offset([-10, 0])
+            .html(function(d) {
+              return "<span>CompanyID: " + d.companyID + "</span><br/>" +
+                     "<span>Active drivers: " + d.NumDrivers + "</span>";
+          });
+    }
+
 
   }
 
   create(data) {
 
-    this.svg = d3.select(this.el).append("svg")
-      .attr("width", this.width + this.margin.left + this.margin.right)
-      .attr("height", this.height + this.margin.top + this.margin.bottom)
-      .append("g")
-      .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
+    if (this.type==="bars") {
 
-    this.svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + this.height + ")")
+        this.svg = d3.select(this.el).append("svg")
+          .attr("width", this.width + this.margin.left + this.margin.right)
+          .attr("height", this.height + this.margin.top + this.margin.bottom)
+          .append("g")
+          .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
 
-    this.svg.append("g")
-      .attr("class", "y axis")
-      .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", ".71em");
+        this.svg.append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(0," + this.height + ")")
+
+        this.svg.append("g")
+          .attr("class", "y axis")
+          .append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", 6)
+          .attr("dy", ".71em");
+    }
 
     this.update(data);
-
   }
 
   orderOfMagnitude(n) {
@@ -63,38 +70,41 @@ class D3Helper {
 
   update(data) {
 
-    var maxNumDrivers = Math.max.apply(Math, data.map(function(d){return d.NumDrivers;}));
+    if (this.type==="bars") {
 
-    this.yAxis = d3.axisLeft().scale(this.y)
-                .ticks(this.orderOfMagnitude(maxNumDrivers)===1 ? maxNumDrivers : this.orderOfMagnitude(maxNumDrivers))
-                .tickFormat(d3.format('.0f'));
+      var maxNumDrivers = Math.max.apply(Math, data.map(function(d){return d.NumDrivers;}));
 
-    var _self  = this;
+      this.yAxis = d3.axisLeft().scale(this.y)
+                  .ticks(this.orderOfMagnitude(maxNumDrivers)===1 ? maxNumDrivers : this.orderOfMagnitude(maxNumDrivers))
+                  .tickFormat(d3.format('.0f'));
 
-    this.x.domain(data.map(function(d) { return d.companyID; }));
-    this.y.domain([0, maxNumDrivers]);
+      var _self  = this;
 
-    this.svg.select('.x.axis').transition().duration(300).call(this.xAxis);
-    this.svg.select(".y.axis").transition().duration(300).call(this.yAxis);
+      this.x.domain(data.map(function(d) { return d.companyID; }));
+      this.y.domain([0, maxNumDrivers]);
 
-    this.svg.call(this.tip);
+      this.svg.select('.x.axis').transition().duration(300).call(this.xAxis);
+      this.svg.select(".y.axis").transition().duration(300).call(this.yAxis);
 
-    var bars = this.svg.selectAll(".bar")
-    .remove()
-    .exit();
+      this.svg.call(this.tip);
 
-    bars.data(data)
-    .enter().append("rect")
-    .on('mouseover', this.tip.show)
-    .on('mouseout', this.tip.hide)
-    .attr("class", "bar")
-    .attr("x", function(d) { return _self.x(d.companyID); })
-    .attr("width", this.x.bandwidth())
-    .attr("height", 0)
-    .attr("y", function (d) { return _self.height; })
-    .transition().duration(700)
-    .attr("y", function(d) { return _self.y(d.NumDrivers); })
-    .attr("height", function(d) { return _self.height - _self.y(d.NumDrivers); });
+      var bars = this.svg.selectAll(".bar")
+      .remove()
+      .exit();
+
+      bars.data(data)
+      .enter().append("rect")
+      .on('mouseover', this.tip.show)
+      .on('mouseout', this.tip.hide)
+      .attr("class", "bar")
+      .attr("x", function(d) { return _self.x(d.companyID); })
+      .attr("width", this.x.bandwidth())
+      .attr("height", 0)
+      .attr("y", function (d) { return _self.height; })
+      .transition().duration(700)
+      .attr("y", function(d) { return _self.y(d.NumDrivers); })
+      .attr("height", function(d) { return _self.height - _self.y(d.NumDrivers); });
+      }
     }
 
 }
