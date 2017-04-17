@@ -160,7 +160,7 @@ class Dashboard extends Component {
           </div>
           <div className="bubbleChart-area">
             <div className="title bubbleChartTitle">Active drivers in the last {formatTime(this.state.selectedTimeFrame)}</div>
-            <D3Chart chartData={this.state.bubbleChartData} type="bubbles" width={900} height={400} />
+            <D3Chart chartData={this.state.bubbleChartData} type="bubbles" width={600} height={400} />
           </div>
         </div>
       </div>

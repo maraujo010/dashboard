@@ -192,8 +192,8 @@ body {
 
 
 .bubbleChartTitle {
-  text-align:left;
-  margin-left:5%;
+  text-align:center;
+  width:50%;
 }
 
 .bubbleChart-area #chart > .bubble{

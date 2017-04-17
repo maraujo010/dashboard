@@ -129,22 +129,29 @@ class D3Helper {
         .sort(function(a, b) { return b.value - a.value; });
 
       this.bubble(root);
+
       var node = this.svg.selectAll(".node")
-        .data(root.children)
-        .enter().append("g")
-        .attr("class", "node")
-        .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+        .remove()
+        .exit();
 
-      node.append("title")
-        .text(function(d) { return d.data.className + ": " + _self.format(d.value); });
+      if (typeof root.children != 'undefined') {
 
-      node.append("circle")
-        .attr("r", function(d) { return d.r; })
-        .style("fill", function(d) {
-          return _self.color(d.data.packageName);
+        node = this.svg.selectAll(".node")
+          .data(root.children)
+          .enter().append("g")
+          .attr("class", "node")
+          .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+        node.append("title")
+          .text(function(d) { return d.data.className + ": " + _self.format(d.value); });
+
+        node.append("circle")
+          .transition().duration(300)
+          .attr("r", function(d) { return d.r; })
+          .style("fill", function(d) {
+            return _self.color(d.data.packageName);
         });
-
-
+      }
     }
   }
 
