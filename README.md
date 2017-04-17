@@ -16,13 +16,15 @@ A Websocket server is sending data through one channel using this format
 ```
 This dataset refers to a driver/company currently active. The websockets server permanently sending information from all drivers and all companies. 
 
-The frontend app is a React.js dashboard with 3 pluggable/extendable plugins:
+The frontend app is a React.js dashboard with a map, two charts and a slider control.
 
-1- A map that shows all the drivers that have sent their position in the last 24 hours. 
+1- A map that shows the markers corresponding to the drivers that have sent their position in the last 24 hours. 
 
-2- A chart that displays the drivers activity (number of times they were active) by time period.
+2- A bar chart that displays the number of active drivers by company in the selected time period.
 
-3- A slider to change the selected period (from 10 days to 6 hours).
+3- A buble chart that shows the active drivers in the selected perios.
+
+4- A slider to change the selected period (from 10 days to 6 hours).
 
 
 ### Technical notes
@@ -31,9 +33,9 @@ The frontend app is a React.js dashboard with 3 pluggable/extendable plugins:
 - The websockets server is generating random data. 
 
 #### Tools/frameworks
-- The map plugin is done with OpenLayers and Open Street Maps.
-- That chart is done using D3.js
-- HTML5 localStorage is used to persist data since last 10 days
+- The map plugin is created with OpenLayers and Open Street Maps.
+- All the charts are created with D3.js
+- HTML5 localStorage is used to persist for the last 10 days
 
 
 
