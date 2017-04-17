@@ -140,16 +140,24 @@ class D3Helper {
           .data(root.children)
           .enter().append("g")
           .attr("class", "node")
-          .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
         node.append("title")
-          .text(function(d) { return d.data.className + ": " + _self.format(d.value); });
+          .text(function(d) {
+
+            let title = "companyID: " + d.data.packageName +
+                        "\ndriverID: " + d.data.className +
+                        "\nTimes active: " + d.data.value;
+
+            return title
+
+          });
 
         node.append("circle")
-          .transition().duration(300)
+          .transition().duration(700)
+          .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
           .attr("r", function(d) { return d.r; })
           .style("fill", function(d) {
-            return _self.color(d.data.packageName);
+            return _self.color(d.data.packageName+d.data.className);
         });
       }
     }
