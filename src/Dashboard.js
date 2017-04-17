@@ -55,72 +55,15 @@ class Dashboard extends Component {
 
   componentWillMount() {
 
-    var filteredDatasets = this.dataManager.filterLoadedDatasets(this.state.timeFrame);
-    var barChartData     = this.buildBarChartData(filteredDatasets);
+    var barChartData     = this.dataManager.buildBarChartData(6);
+    var bubbleChartData  = this.dataManager.buildBubbleChartData(6);
 
     this.setState({
       selectedTimeFrame: 6,
       timeFrame: 6,
-      barChartData: barChartData
+      barChartData: barChartData,
+      bubbleChartData: bubbleChartData
     });
-  }
-
-  // build bar chart data from filtered datasets
-  buildBarChartData(datasets) {
-
-    var chartData = [],
-        companys  = {},
-        drivers   = [];
-
-    for (let i=0; i<datasets.length; i++) {
-      var key = datasets[i].company_id;
-
-      if (companys.hasOwnProperty(key) && drivers.indexOf(datasets[i].driver_id))
-        companys[key].NumDrivers++;
-      else {
-        companys[key] = {
-          companyID: datasets[i].company_id,
-          NumDrivers: 1
-        };
-
-        drivers.push(datasets[i].driver_id);
-      }
-    }
-
-    for (let key in companys)
-      if (companys.hasOwnProperty(key))
-        chartData.push(companys[key]);
-
-    return chartData;
-  }
-
-  // build bar chart data from filtered datasets
-  buildBubbleChartData(datasets) {
-
-    var chartData = [],
-        companys  = {},
-        drivers   = [];
-
-    for (let i=0; i<datasets.length; i++) {
-      var key = datasets[i].company_id;
-
-      if (companys.hasOwnProperty(key) && drivers.indexOf(datasets[i].driver_id))
-        companys[key].NumDrivers++;
-      else {
-        companys[key] = {
-          companyID: datasets[i].company_id,
-          NumDrivers: 1
-        };
-
-        drivers.push(datasets[i].driver_id);
-      }
-    }
-
-    for (let key in companys)
-      if (companys.hasOwnProperty(key))
-        chartData.push(companys[key]);
-
-    return chartData;
   }
 
   //  handle slider event onChange
@@ -138,9 +81,8 @@ class Dashboard extends Component {
   // Update chart data
   updateCharts() {
 
-    var filteredDatasets = this.dataManager.filterLoadedDatasets(this.state.timeFrame);
-    var barChartData     = this.buildBarChartData(filteredDatasets);
-    var bubbleChartData  = this.buildBubbleChartData(filteredDatasets);
+    var barChartData     = this.dataManager.buildBarChartData(this.state.timeFrame);
+    var bubbleChartData  = this.dataManager.buildBubbleChartData(this.state.timeFrame);
 
     this.setState({
       barChartData: barChartData,

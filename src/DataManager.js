@@ -97,6 +97,69 @@ class DataManager {
     return filtered;
   }
 
+
+    // build bar chart data from filtered datasets
+    buildBubbleChartData(timeFrame) {
+
+      var datasets  = this.filterLoadedDatasets(timeFrame);
+      var chartData = [],
+          companys  = {},
+          drivers   = [];
+
+      for (let i=0; i<datasets.length; i++) {
+        var key = datasets[i].company_id;
+
+        if (companys.hasOwnProperty(key) && drivers.indexOf(datasets[i].driver_id))
+          companys[key].NumDrivers++;
+        else {
+          companys[key] = {
+            companyID: datasets[i].company_id,
+            NumDrivers: 1
+          };
+
+          drivers.push(datasets[i].driver_id);
+        }
+      }
+
+      for (let key in companys)
+        if (companys.hasOwnProperty(key))
+          chartData.push(companys[key]);
+
+      return chartData;
+    }
+
+
+  // build bar chart data from filtered datasets
+  buildBarChartData(timeFrame) {
+
+    var datasets  = this.filterLoadedDatasets(timeFrame);
+    var chartData = [],
+        companys  = {},
+        drivers   = [];
+
+    for (let i=0; i<datasets.length; i++) {
+      var key = datasets[i].company_id;
+
+      if (companys.hasOwnProperty(key) && drivers.indexOf(datasets[i].driver_id))
+        companys[key].NumDrivers++;
+      else {
+        companys[key] = {
+          companyID: datasets[i].company_id,
+          NumDrivers: 1
+        };
+
+        drivers.push(datasets[i].driver_id);
+      }
+    }
+
+    for (let key in companys)
+      if (companys.hasOwnProperty(key))
+        chartData.push(companys[key]);
+
+    return chartData;
+  }
+
+
 }
 
 export default DataManager;
