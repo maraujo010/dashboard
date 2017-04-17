@@ -66,8 +66,8 @@ wss.on('connection', function connection(ws) {
 
         counter++;
 
-        // demo: sending 500000 datasets
-        if(counter === 50000) {
+        // demo: finishes after sending 1000 datasets
+        if(counter === 1000) {
           clearInterval(int);
         }
       }, 5000);
