@@ -1,9 +1,7 @@
 class DataManager {
 
   constructor() {
-
     this.loadedDatasets = this.purgeStoredData();
-
   }
 
   // Adds new dataset to array in memory and stores it locally
@@ -78,7 +76,6 @@ class DataManager {
     return lastActive;
   }
 
-
   // filter loadedDatasets by selected time period
   filterLoadedDatasets(timeFrame) {
 
@@ -96,38 +93,6 @@ class DataManager {
 
     return filtered;
   }
-
-
-    // build bar chart data from filtered datasets
-    buildBubbleChartData(timeFrame) {
-
-      var datasets  = this.filterLoadedDatasets(timeFrame);
-      var chartData = [],
-          companys  = {},
-          drivers   = [];
-
-      for (let i=0; i<datasets.length; i++) {
-        var key = datasets[i].company_id;
-
-        if (companys.hasOwnProperty(key) && drivers.indexOf(datasets[i].driver_id))
-          companys[key].NumDrivers++;
-        else {
-          companys[key] = {
-            companyID: datasets[i].company_id,
-            NumDrivers: 1
-          };
-
-          drivers.push(datasets[i].driver_id);
-        }
-      }
-
-      for (let key in companys)
-        if (companys.hasOwnProperty(key))
-          chartData.push(companys[key]);
-
-      return chartData;
-    }
-
 
   // build bar chart data from filtered datasets
   buildBarChartData(timeFrame) {
@@ -159,7 +124,33 @@ class DataManager {
     return chartData;
   }
 
+  // build bar chart data from filtered datasets
+  buildBubbleChartData(timeFrame) {
 
+    var datasets  = this.filterLoadedDatasets(timeFrame);
+    var chartData = [],
+        drivers   = {};
+
+    for (let i=0; i<datasets.length; i++) {
+      var key = datasets[i].company_id + datasets[i].driver_id;
+
+      if (drivers.hasOwnProperty(key))
+        drivers[key].NumTimesActive++;
+      else {
+        drivers[key] = {
+          driverID: datasets[i].driver_id,
+          companyID: datasets[i].company_id,
+          NumTimesActive: 1
+        };
+      }
+    }
+
+    for (let key in drivers)
+      if (drivers.hasOwnProperty(key))
+        chartData.push(drivers[key]);
+
+    return chartData;
+  }
 }
 
 export default DataManager;

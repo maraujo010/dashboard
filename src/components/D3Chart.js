@@ -8,7 +8,7 @@ class D3Chart extends Component {
 
     var el = ReactDOM.findDOMNode(this);
 
-    this.d3Helper = new D3Helper(el, this.props.type);
+    this.d3Helper = new D3Helper(el, this.props.type, this.props.width, this.props.height);
     this.d3Helper.create(this.props.chartData);
   }
 
@@ -48,8 +48,9 @@ class D3Chart extends Component {
   }
 
   render() {
+
     return (
-      <div className="Chart"></div>
+      <div id="chart" ></div>
     );
   }
 }

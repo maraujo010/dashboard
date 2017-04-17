@@ -5,58 +5,74 @@ d3.tip = d3Tip;
 
 class D3Helper {
 
-  constructor(el, type) {
+  constructor(el, type, width, height) {
 
     this.el   = el;
     this.type = type;
 
     if (this.type==="bars") {
 
-          this.margin = {top: 20, right: 20, bottom: 30, left: 40};
-          this.width  = 600 - this.margin.left - this.margin.right;
-          this.height = 390 - this.margin.top - this.margin.bottom;
+      this.margin = {top: 20, right: 20, bottom: 30, left: 40};
+      this.width  = width - this.margin.left - this.margin.right;
+      this.height = height - this.margin.top - this.margin.bottom;
 
-          this.x      = d3.scaleBand()
-                        .rangeRound([0, this.width])
-                        .padding(0.1);
+      this.x      = d3.scaleBand()
+                    .rangeRound([0, this.width])
+                    .padding(0.1);
 
-          this.y      = d3.scaleLinear()
-                        .range([this.height, 0]);
+      this.y      = d3.scaleLinear()
+                    .range([this.height, 0]);
 
-          this.xAxis  = d3.axisBottom().scale(this.x);
+      this.xAxis  = d3.axisBottom().scale(this.x);
 
-          this.tip = d3.tip()
-            .attr('class', 'd3-tip')
-            .offset([-10, 0])
-            .html(function(d) {
-              return "<span>CompanyID: " + d.companyID + "</span><br/>" +
-                     "<span>Active drivers: " + d.NumDrivers + "</span>";
-          });
+      this.tip = d3.tip()
+        .attr('class', 'd3-tip')
+        .offset([-10, 0])
+        .html(function(d) {
+          return "<span>CompanyID: " + d.companyID + "</span><br/>" +
+                 "<span>Active drivers: " + d.NumDrivers + "</span>";
+      });
     }
+    else if (this.type==="bubbles") {
 
+      this.color  = d3.scaleOrdinal(d3.schemeCategory20c);
+      this.bubble = d3.pack()
+        .size([width, height])
+        .padding(1.5);
 
+      this.format = d3.format(",d");
+      this.width  = width;
+      this.height = height;
+    }
   }
 
   create(data) {
 
     if (this.type==="bars") {
 
-        this.svg = d3.select(this.el).append("svg")
-          .attr("width", this.width + this.margin.left + this.margin.right)
-          .attr("height", this.height + this.margin.top + this.margin.bottom)
-          .append("g")
-          .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
+      this.svg = d3.select(this.el).append("svg")
+        .attr("width", this.width + this.margin.left + this.margin.right)
+        .attr("height", this.height + this.margin.top + this.margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
 
-        this.svg.append("g")
-          .attr("class", "x axis")
-          .attr("transform", "translate(0," + this.height + ")")
+      this.svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + this.height + ")")
 
-        this.svg.append("g")
-          .attr("class", "y axis")
-          .append("text")
-          .attr("transform", "rotate(-90)")
-          .attr("y", 6)
-          .attr("dy", ".71em");
+      this.svg.append("g")
+        .attr("class", "y axis")
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6)
+        .attr("dy", ".71em");
+    }
+    else if (this.type==="bubbles") {
+
+      this.svg = d3.select(this.el).append("svg")
+        .attr("width", this.width)
+        .attr("height", this.height)
+        .attr("class", "bubble");
     }
 
     this.update(data);
@@ -70,15 +86,16 @@ class D3Helper {
 
   update(data) {
 
+    var _self = this;
+
     if (this.type==="bars") {
 
       var maxNumDrivers = Math.max.apply(Math, data.map(function(d){return d.NumDrivers;}));
+      var ticks         = this.orderOfMagnitude(maxNumDrivers)===1 ? maxNumDrivers : this.orderOfMagnitude(maxNumDrivers);
 
       this.yAxis = d3.axisLeft().scale(this.y)
-                  .ticks(this.orderOfMagnitude(maxNumDrivers)===1 ? maxNumDrivers : this.orderOfMagnitude(maxNumDrivers))
+                  .ticks(ticks)
                   .tickFormat(d3.format('.0f'));
-
-      var _self  = this;
 
       this.x.domain(data.map(function(d) { return d.companyID; }));
       this.y.domain([0, maxNumDrivers]);
@@ -104,9 +121,47 @@ class D3Helper {
       .transition().duration(700)
       .attr("y", function(d) { return _self.y(d.NumDrivers); })
       .attr("height", function(d) { return _self.height - _self.y(d.NumDrivers); });
-      }
+    }
+    else if (this.type==="bubbles") {
+
+      var root = d3.hierarchy(this.classes(data))
+        .sum(function(d) { return d.value; })
+        .sort(function(a, b) { return b.value - a.value; });
+
+      this.bubble(root);
+      var node = this.svg.selectAll(".node")
+        .data(root.children)
+        .enter().append("g")
+        .attr("class", "node")
+        .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+      node.append("title")
+        .text(function(d) { return d.data.className + ": " + _self.format(d.value); });
+
+      node.append("circle")
+        .attr("r", function(d) { return d.r; })
+        .style("fill", function(d) {
+          return _self.color(d.data.packageName);
+        });
+
+
+    }
+  }
+
+  // classes for bubble charts
+  classes(data) {
+    var bubbleData = [];
+
+    for (let i=0; i<data.length; i++) {
+      bubbleData.push({
+          packageName: data[i].companyID,
+          className: data[i].driverID,
+          value: data[i].NumTimesActive
+      });
     }
 
+    return {children: bubbleData};
+  }
 }
 
 export default D3Helper

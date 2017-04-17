@@ -156,15 +156,11 @@ class Dashboard extends Component {
           </div>
           <div className="barChart-area">
             <div className="title">Number of active drivers by company in the last {formatTime(this.state.selectedTimeFrame)}</div>
-            <div className="barChart">
-              <D3Chart chartData={this.state.barChartData} type="bars" />
-            </div>
+            <D3Chart chartData={this.state.barChartData} type="bars" width={600} height={390} />
           </div>
           <div className="bubbleChart-area">
             <div className="title bubbleChartTitle">Active drivers in the last {formatTime(this.state.selectedTimeFrame)}</div>
-            <div className="bubbleChart">
-              <D3Chart chartData={this.state.bubbleChartData} type="bubbles" />
-            </div>
+            <D3Chart chartData={this.state.bubbleChartData} type="bubbles" width={900} height={400} />
           </div>
         </div>
       </div>

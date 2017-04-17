@@ -2,10 +2,6 @@ body {
   margin:0px;
 }
 
-.app {
-  text-align: center;
-}
-
 .app-header {
   margin:0px;
   background-color: #222;
@@ -26,31 +22,19 @@ body {
 }
 
 .title {
+  text-align:center;
   font-family: arial;
   font-size: 20px;
   font-weight: bold;
   color: grey;
 }
 
-.slider-area, .barChart-area{
-  float:left;
-  width:50%;
-}
 
-.slider-area .slider{
-  width:70%;
-  margin:48px auto 40px auto;
-}
+/* map */
 
 .map-area {
   float:right;
   width:50%;
-}
-
-.bubbleChart-area {
-  margin-top:20px;
-  float:left;
-  width:100%;
 }
 
 #map {
@@ -103,6 +87,7 @@ body {
   font-family: arial;
 }
 
+/* slider */
 .rangeslider__fill {
   background-color: steelblue !important;
   border-radius: 0 !important;
@@ -137,12 +122,38 @@ body {
     display:none;
 }
 
+.slider-area .slider{
+  width:70%;
+  margin:48px auto 40px auto;
+}
+
+.slider-area {
+  float:left;
+  width:50%;
+}
+
 /* charts */
 
-.barChart {
-  margin-top:40px;
+.barChart-area{
+  float:left;
+  width:50%;
+}
+
+.bubbleChart-area {
+  float:left;
   width:100%;
 }
+
+.barChart-area #chart {
+  margin:40px 5%;
+  width:100%;
+}
+
+.bubbleChart-area #chart{
+  float:left;
+  margin:20px 0 20px 5%;
+}
+
 
 .bar {
   fill: steelblue;
@@ -179,7 +190,12 @@ body {
   left: 0;
 }
 
+
 .bubbleChartTitle {
-  float:left;
-  margin-left:13.5%;
+  text-align:left;
+  margin-left:5%;
+}
+
+.bubbleChart-area #chart > .bubble{
+  border:1px solid #c9c9c9;
 }
