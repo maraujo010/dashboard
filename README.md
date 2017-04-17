@@ -57,5 +57,5 @@ npm start
 ```
 #### Screenshots
 ![App Map](/screenshot.png?raw=true "app screenshot")
-![App Bars Chart](/screenshot2.png?raw=true "app screenshot")
+![App Bars chart](/screensho2.png?raw=true "app screenshot")
 ![App Bubbles Chart](/screenshot3.png?raw=true "app screenshot")
