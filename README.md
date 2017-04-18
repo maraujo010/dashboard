@@ -22,7 +22,7 @@ The frontend app is a React.js dashboard with a map, two charts and a slider con
 
 2- A bar chart that displays the number of active drivers by company in the selected time period.
 
-3- A buble chart that shows the active drivers in the selected perios.
+3- A buble chart that shows the active drivers in the selected period.
 
 4- A slider to change the selected period (from 10 days to 6 hours).
 
