@@ -57,6 +57,8 @@ Starting the webserver and the frontend app:
 ```
 npm start
 ```
+Web server should be running on localhost port 3000. Open the following url with your browser: http://localhost:3000
+
 #### Screenshots
 ![App Map](/screenshot.png?raw=true "app screenshot")
 ![App Bars chart](/screensho2.png?raw=true "app screenshot")
