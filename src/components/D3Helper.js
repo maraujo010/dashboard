@@ -86,8 +86,6 @@ class D3Helper {
 
   update(data) {
 
-    var _self = this;
-
     if (this.type==="bars") {
 
       var maxNumDrivers = Math.max.apply(Math, data.map(function(d){return d.NumDrivers;}));
@@ -114,13 +112,13 @@ class D3Helper {
       .on('mouseover', this.tip.show)
       .on('mouseout', this.tip.hide)
       .attr("class", "bar")
-      .attr("x", function(d) { return _self.x(d.companyID); })
+      .attr("x", (d) => { return this.x(d.companyID); })
       .attr("width", this.x.bandwidth())
       .attr("height", 0)
-      .attr("y", function (d) { return _self.height; })
+      .attr("y", (d) => { return this.height; })
       .transition().duration(700)
-      .attr("y", function(d) { return _self.y(d.NumDrivers); })
-      .attr("height", function(d) { return _self.height - _self.y(d.NumDrivers); });
+      .attr("y", (d) => { return this.y(d.NumDrivers); })
+      .attr("height", (d) => { return this.height - this.y(d.NumDrivers); });
     }
     else if (this.type==="bubbles") {
 
@@ -134,7 +132,7 @@ class D3Helper {
         .remove()
         .exit();
 
-      if (typeof root.children != 'undefined') {
+      if (typeof root.children !== 'undefined') {
 
         node = this.svg.selectAll(".node")
           .data(root.children)
@@ -156,8 +154,8 @@ class D3Helper {
           .transition().duration(700)
           .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
           .attr("r", function(d) { return d.r; })
-          .style("fill", function(d) {
-            return _self.color(d.data.packageName+d.data.className);
+          .style("fill", (d) => {
+            return this.color(d.data.packageName+d.data.className);
         });
       }
     }

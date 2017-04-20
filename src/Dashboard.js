@@ -29,26 +29,24 @@ class Dashboard extends Component {
   startConnection(wsServerUrl){
 
     var ws    = new WebSocket(wsServerUrl);
-    var _self = this;
 
     ws.onopen = function() {
       console.log('Connected to the server');
     }
 
-    ws.onmessage = function(event) {
+    ws.onmessage = (event) => {
       //console.log(event.data);
       var dataset = JSON.parse(event.data);
 
-      _self.dataManager.saveDataset(dataset);
-      _self.mapMethods.addMarker(dataset);
-      _self.updateCharts();
-
+      this.dataManager.saveDataset(dataset);
+      this.mapMethods.addMarker(dataset);
+      this.updateCharts();
     }
 
-    ws.onclose = function(){
+    ws.onclose = () => {
        //try to reconnect in 10 seconds
        console.log("Disconnected form the server. Trying to reconnect...");
-       setTimeout(function(){_self.startConnection(wsServerUrl)}, 10000);
+       setTimeout(() => {this.startConnection(wsServerUrl)}, 10000);
    };
 
   }

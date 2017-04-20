@@ -54,20 +54,18 @@ class Map extends Component {
 
    this.map.addOverlay(this.overlay);
 
-   var _this = this;
-
-   this.map.on('pointermove', function(evt) {
+   this.map.on('pointermove', (evt) => {
 
      var pixel   = evt.pixel;
-     var feature = _this.map.forEachFeatureAtPixel(pixel, function(feature) {
+     var feature = this.map.forEachFeatureAtPixel(pixel, (feature) => {
        return feature;
      });
 
-     _this.tooltip.style.display = feature ? '' : 'none';
+     this.tooltip.style.display = feature ? '' : 'none';
 
      if (feature) {
 
-       _this.overlay.setPosition(evt.coordinate);
+       this.overlay.setPosition(evt.coordinate);
 
        var arrDate           = feature.get('timestamp').split(/[^0-9]/);
        var dateUnixTimestamp = Date.UTC(arrDate[0],arrDate[1]-1,arrDate[2],arrDate[3],arrDate[4],arrDate[5]);
@@ -76,7 +74,7 @@ class Map extends Component {
        let posDate = dateObj.toLocaleDateString('de-DE');
        let posTime = dateObj.getHours() + ":" + (dateObj.getMinutes() < 10 ? "0" + dateObj.getMinutes() : dateObj.getMinutes());
 
-       _this.tooltip.innerHTML = "<span> CompanyID: " + feature.get('companyID') + "</span>" +
+       this.tooltip.innerHTML = "<span> CompanyID: " + feature.get('companyID') + "</span>" +
                                  "<span> DriverID: " + feature.get('driverID') + "</span>" +
                                  "<span> Date: " + posDate + "</span>" +
                                  "<span> Time: " + posTime + "</span>";
